@@ -25,4 +25,9 @@ module.exports = {
         "react/react-in-jsx-scope": "off",
     // Add your own rules here to override ones from the extended configs.
   },
+  globals: {
+    console: "readonly",
+    document: "readonly",
+    window: "readonly"
+  }
 };
