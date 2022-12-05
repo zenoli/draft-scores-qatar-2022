@@ -14,6 +14,10 @@ describe("Utils", () => {
       ([_, v]) => v,
     )
 
+    const x = 5
+    console.log(x)
+
+
     const expectedObj = {
       one: 1,
       two: 2,

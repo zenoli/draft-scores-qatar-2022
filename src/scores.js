@@ -1,5 +1,5 @@
-import { EventType, Participants } from "./enums"
-import { arrayToObject, invertAssociation } from "./utils"
+import { EventType, Participants } from "./enums.js"
+import { arrayToObject, invertAssociation } from "./utils.js"
 
 function getScoreObject() {
   return arrayToObject(
@@ -9,33 +9,32 @@ function getScoreObject() {
   )
 }
 
-function getOwners(drafts) {
+export function getOwners(drafts) {
   const owners = {}
-  for (const country in Object.keys(drafts)) {
+  for (const country of Object.keys(drafts)) {
     owners[country] = invertAssociation(drafts[country])
   }
   return owners
 }
 
-
-function getEvents(matches, owners) {
+export function getEvents(matches, owners) {
   const events = []
   for (const match of matches) {
     for (const event of match.home_team_events) {
-      const owner = owners[event.home_team_country][event.player]
+      event.country = match.home_team_country
+      event.opponent = match.away_team_country
+      const owner = owners[event.country] && owners[event.country][event.player]
       if (owner) {
         event.owner = owner
-        event.country = match.home_team_country
-        event.opponent = match.away_team_country
         events.push(event)
       }
     }
     for (const event of match.away_team_events) {
-      const owner = owners[event.away_team_country][event.player]
+      event.country = match.away_team_country
+      event.opponent = match.home_team_country
+      const owner = owners[event.country] && owners[event.country][event.player]
       if (owner) {
         event.owner = owner
-        event.country = match.away_team_country
-        event.opponent = match.home_team_country
         events.push(event)
       }
     }
@@ -43,26 +42,16 @@ function getEvents(matches, owners) {
   return events
 }
 
-
-function getPlayerEvents(events, players, eventTypes) {
-  return events.filter(event => {
-    const c1 = eventTypes.includes(event.type_of_event)
-    const c2 = players.includes(event.player)
-    return c1 && c2
-  })
+export function getEventsWithPlayers(events, players) {
+  return events.filter((event) => players.includes(event.player))
 }
 
-
-function getOwnerEvents(events, owners, eventTypes) {
-  return events.filter(event => {
-    const c1 = eventTypes.includes(event.type_of_event)
-    const c2 = owners.includes(event.owner)
-    return c1 && c2
-  })
+export function getEventsWithOwners(events, owners) {
+  return events.filter((event) => owners.includes(event.owner))
 }
 
-function getMatchEvents(events, team1, team2) {
-  return events.filter(event => {
+export function getMatchEvents(events, team1, team2) {
+  return events.filter((event) => {
     const countries = [team1, team2]
     const c1 = countries.includes(event.home_team_country)
     const c2 = countries.includes(event.away_team_country)
@@ -70,34 +59,23 @@ function getMatchEvents(events, team1, team2) {
   })
 }
 
-
-function* events(matches) {
-  for (const match of matches) {
-    for (const event of match.home_team_events) {
-      event.opponent = match.away_team_country
-      yield event
-    }
-    for (const event of match.away_team_events) {
-      event.opponent = match.home_team_country
-      yield event
-    }
-
-  }
+export function getEventsOfTypes(events, types) {
+  return events.filter(event => types.includes(event.type_of_event))
 }
+
 
 function addScores(score1, score2) {
   const sum = {}
-  Object.keys(score1).map(p => sum[p] = score1[p] + score2[p])
+  Object.keys(score1).map((p) => (sum[p] = score1[p] + score2[p]))
   return sum
 }
 
 export function processMatches(matches, drafts) {
   return matches.reduce(
     (score, match) => addScores(processMatch(match, drafts), score),
-    getScoreObject()
+    getScoreObject(),
   )
 }
-
 
 function processMatch(match, drafts) {
   const homeTeam = match.home_team_country
@@ -115,7 +93,7 @@ function processMatch(match, drafts) {
 function processEvents(events, teamDrafts) {
   return events.reduce(
     (score, event) => addScores(score, processEvent(event, teamDrafts)),
-    getScoreObject()
+    getScoreObject(),
   )
 }
 
@@ -146,3 +124,13 @@ function processBookingEvent(player, teamDrafts) {
   }
   return scores
 }
+
+function foo() {
+  const x = 5
+  const y = 2
+  const z = x + y
+  console.log("x")
+  
+}
+
+foo()
