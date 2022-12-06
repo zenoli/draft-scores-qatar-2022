@@ -24,6 +24,7 @@ module.exports = {
   },
   rules: {
     "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
     "no-unused-vars": "warn",
   },
   globals: {
@@ -31,5 +32,6 @@ module.exports = {
     document: "readonly",
     window: "readonly",
     module: "readonly",
+    fetch: "readonly",
   },
 }

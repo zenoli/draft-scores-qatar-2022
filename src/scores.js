@@ -63,6 +63,33 @@ export function getEventsOfTypes(events, types) {
   return events.filter(event => types.includes(event.type_of_event))
 }
 
+export function getScores(events) {
+  return Object.values(Participants)
+    .map(owner => ([owner, getEventsWithOwners(events, [owner])]))
+    .map(([owner, ownerEvents]) => ([owner, getScoresOfOwner(ownerEvents)]))
+}
+
+export function sortScores(scores, scoreType) {
+  if (scoreType === "name")
+    return scores.sort((a, b) => b.name < a.name ? -1 : 1)
+  else
+    return scores.sort((a, b) => b[1][scoreType].length - a[1][scoreType].length)
+}
+
+export function getSortedScores(events, scoreType) {
+  const scores =  getScores(events)
+  return sortScores(scores, scoreType)
+}
+
+export function getScoresOfOwner(events) {
+  const goals = getEventsOfTypes(events, [EventType.GOAL])
+  const assists = []
+  const bookings = getEventsOfTypes(events, [EventType.BOOKING])
+  const cleanSheets = []
+  const total = [...goals, ...assists, ...bookings, ...cleanSheets]
+  return { goals, assists, bookings, cleanSheets, total }
+}
+
 
 function addScores(score1, score2) {
   const sum = {}

@@ -1,48 +1,56 @@
-import { useState, useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
 import drafts from "./drafts.json"
 import api from "./api-full.json"
 import {
   getEvents,
   getOwners,
-  getEventsWithOwners
+  getSortedScores,
 } from "./scores.js"
 import { Participants } from "./enums.js"
 import ScoreboardRow from "./ScoreboardRow"
 import ScoreboardHeader from "./ScoreboardHeader"
 
-
 function Scoreboard(props) {
-  const [count, setCount] = useState(0)
-  const [owners, setOwners] = useState(getOwners(drafts))
-  const [events, setEvents] = useState(getEvents(api, owners))
-
-  const doubleCount = useMemo(() => count * 2, [count])
-
-  function handleClick(e) {
-    setCount((count) => count + 1)
-    console.log("Inside handleClick!!!")
+  async function fetchMatches() {
+    const matchesResponse = await fetch(
+      "https://worldcupjson.net/matches?details=true",
+    )
+    const matches = await matchesResponse.json()
+    console.log("FETCHING...")
+    setMatches(matches)
   }
 
+  useEffect(() => {
+    fetchMatches()
+  }, [])
+
+  const [matches, setMatches] = useState([])
+  const [sortCategory, setSortCategory] = useState("total")
+  const [owners, setOwners] = useState(getOwners(drafts))
+
+  const events = getEvents(matches, owners)
+  const scores = getSortedScores(events, sortCategory)
+
+  const scoreboardRows = scores.map(([owner, scores], i) => (
+      <ScoreboardRow
+        key={i}
+        name={owner}
+        goals={scores.goals}
+        assists={scores.assists}
+        bookings={scores.bookings}
+        cleanSheets={scores.cleanSheets}
+        total={scores.total}
+      />
+    ))
+
   return (
-    <div>
-      <button className="bg-sky-500 p-2 rounded-full" onClick={handleClick}>
-        Oli: {count}, Double count: {doubleCount}
-      </button>
-      <table>
-        <thead>
-          <ScoreboardHeader/>
-        </thead>
-        <tbody>
-          <ScoreboardRow name="Oli" events={getEventsWithOwners(events, ["Oli"])} />
-          <ScoreboardRow name="Jakob" events={getEventsWithOwners(events, ["Jakob"])}/>
-          <ScoreboardRow name="Joel" events={getEventsWithOwners(events, ["Joel"])}/>
-          <ScoreboardRow name="Jan" events={getEventsWithOwners(events, ["Jan"])}/>
-          <ScoreboardRow name="Julien" events={getEventsWithOwners(events, ["Julien"])}/>
-          <ScoreboardRow name="Fabian" events={getEventsWithOwners(events, ["Fabian"])}/>
-          <ScoreboardRow name="Chris" events={getEventsWithOwners(events, ["Chris"])}/>
-        </tbody>
+    <div className="rounded-lg overflow-auto">
+      <table className="table-fixed border-spacing-4 w-full">
+        <ScoreboardHeader
+          setSortCategory={setSortCategory}
+        />
+        <tbody>{scoreboardRows}</tbody>
       </table>
-      <div>{JSON.stringify(events)}</div>
     </div>
   )
 }

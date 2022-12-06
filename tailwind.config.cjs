@@ -5,9 +5,9 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    // fontFamily: {
-    //   sans: [ '"Uroob"' ]
-    // },
+    fontFamily: {
+      sans: [ '"Open Sans"' ]
+    },
     extend: {},
   },
   plugins: [],
