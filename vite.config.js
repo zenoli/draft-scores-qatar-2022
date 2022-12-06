@@ -4,7 +4,7 @@ import eslint from 'vite-plugin-eslint'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // plugins: [react(), eslint()]
+  base: "draft-scores-qatar-2022",
   plugins: [
     react(),
     { // default settings on build (i.e. fail on error)
