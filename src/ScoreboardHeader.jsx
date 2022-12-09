@@ -1,7 +1,7 @@
 function ScoreboardHeader({ setSortCategory }) {
   const HeaderCell = ({name, category}) => (
     <th
-      className="sm:p-4 p-2 overflow-hidden"
+      className="sm:p-4 p-2 overflow-hidden cursor-pointer"
       onClick={() => setSortCategory(category)}
     >
       {name}
@@ -9,7 +9,7 @@ function ScoreboardHeader({ setSortCategory }) {
   )
 
   return (
-    <thead className="uppercase bg-slate-800 text-white p-14">
+    <thead className="uppercase bg-slate-800 text-white text-xs p-14">
       <tr>
         <HeaderCell name="Name" category="name" />
         <HeaderCell name="Goals" category="goals" />

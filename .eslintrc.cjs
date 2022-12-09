@@ -22,6 +22,10 @@ module.exports = {
     },
     "import/ignore": ["vite*"],
   },
+  env: {
+    browser: true,
+    node: true,
+  },
   rules: {
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
@@ -34,4 +38,7 @@ module.exports = {
     module: "readonly",
     fetch: "readonly",
   },
+  parserOptions: {
+    ecmaVersion: "latest"
+  }
 }
