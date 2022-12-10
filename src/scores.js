@@ -77,7 +77,7 @@ export function sortScores(scores, scoreType) {
 }
 
 export function getSortedScores(events, scoreType) {
-  const scores =  getScores(events)
+  const scores = getScores(events)
   return sortScores(scores, scoreType)
 }
 
