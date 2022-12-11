@@ -1,11 +1,19 @@
 import { useOutletContext } from "react-router-dom"
+import Header from "./Header"
 import Scoreboard from "./Scoreboard"
+import { IoFootball } from "react-icons/all"
 
 function ScoreboardView() {
   const [events, loading] = useOutletContext()
   return (
-    <div className="ScoreboardView flex justify-center m-4 sm:m-8">
-      {events.length > 0 && <Scoreboard events={events} loading={loading}/>}
+    <div>
+      <Header
+        icon={<IoFootball />}
+        title={<h1>Ravensburger Scoreboard</h1>}
+      />
+      <div className="ScoreboardView flex justify-center m-4 sm:m-8">
+        {<Scoreboard events={events} loading={loading}/>}
+      </div>
     </div>
   )
 }

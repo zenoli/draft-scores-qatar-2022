@@ -22,7 +22,7 @@ function ScoreboardRow({ name, goals, assists, bookings, cleanSheets, total }) {
       <Cell scoreType="assist">{assists.length}</Cell>
       <Cell scoreType="booking">{bookings.length}</Cell>
       <Cell scoreType="cleanSheet">{cleanSheets.length}</Cell>
-      <Cell className="font-bold">{total.length}</Cell>
+      <Cell scoreType="total" className="font-bold">{total.length}</Cell>
     </tr>
   )
 }

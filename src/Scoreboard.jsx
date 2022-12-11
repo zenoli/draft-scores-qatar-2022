@@ -28,6 +28,7 @@ function Scoreboard({events, loading}) {
     <div className="rounded-lg overflow-auto relative">
       <table className="table-fixed border-spacing-4 w-full">
         <ScoreboardHeader
+          sortCategory={sortCategory}
           setSortCategory={setSortCategory}
         />
         <tbody>{scoreboardRows}</tbody>
