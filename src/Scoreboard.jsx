@@ -7,7 +7,8 @@ import { getSortedScores } from "./scores.js"
 
 export function useAssists() {
   async function scrapeAssists() {
-    const response = await fetch("/assists")
+    // const response = await fetch("/assists")
+    const response = await fetch("https://world-cup-stats-production.up.railway.app/assists")
     const assists = await response.json()
     console.log(assists)
     return assists
