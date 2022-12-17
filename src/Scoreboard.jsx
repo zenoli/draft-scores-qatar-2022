@@ -1,28 +1,40 @@
-import { useState, useEffect, useMemo } from "react"
-import GridLoader from "react-spinners/GridLoader";
+import { useState } from "react"
+import GridLoader from "react-spinners/GridLoader"
 
-import { getSortedScores } from "./scores.js"
-import ScoreboardRow from "./ScoreboardRow"
 import ScoreboardHeader from "./ScoreboardHeader"
+import ScoreboardRow from "./ScoreboardRow"
+import { getSortedScores } from "./scores.js"
 
-function Scoreboard({events, loading}) {
+export function useAssists() {
+  async function scrapeAssists() {
+    const response = await fetch("/assists")
+    const assists = await response.json()
+    console.log(assists)
+    return assists
+  }
+
+  return scrapeAssists()
+}
+
+function Scoreboard({ events, loading }) {
+  useAssists()
 
   const [sortCategory, setSortCategory] = useState("total")
   const scores = getSortedScores(events, sortCategory)
 
   const scoreboardRows = scores.map(([owner, scores], i) => (
-      <ScoreboardRow
-        key={i}
-        name={owner}
-        goals={scores.goals}
-        assists={scores.assists}
-        bookings={scores.bookings}
-        cleanSheets={scores.cleanSheets}
-        total={scores.total}
-      />
-    ))
+    <ScoreboardRow
+      key={i}
+      name={owner}
+      goals={scores.goals}
+      assists={scores.assists}
+      bookings={scores.bookings}
+      cleanSheets={scores.cleanSheets}
+      total={scores.total}
+    />
+  ))
 
-  const Spinner = ({ enabled }) => enabled && <GridLoader color="#0f172a"/>
+  const Spinner = ({ enabled }) => enabled && <GridLoader color="#0f172a" />
 
   return (
     <div className="rounded-lg overflow-auto relative">
@@ -34,7 +46,7 @@ function Scoreboard({events, loading}) {
         <tbody>{scoreboardRows}</tbody>
       </table>
       <div className="absolute top-0 w-full h-full flex justify-center items-center pointer-events-none">
-        <Spinner enabled={loading}/>
+        <Spinner enabled={loading} />
       </div>
     </div>
   )

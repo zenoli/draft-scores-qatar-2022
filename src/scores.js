@@ -17,12 +17,75 @@ export function getOwners(drafts) {
   return owners
 }
 
-export function getEvents(matches, owners) {
+function getCleanSheetEvent(owner, player, lineup, events, goalsReceived, country, opponent) {
+  if (goalsReceived !== 0) return false
+  const substitutions = events.filter(event => event.type_of_event === "substitution")
+
+  const isStartingGoalkeeper = lineup.starting_eleven.find(p => 
+    p.name === player && p.position === "Goalkeeper"
+  ) !== undefined
+
+  const isSubstituteGoalkeeper = lineup.substitutes.find(p => 
+    p.name === player && p.position === "Goalkeeper"
+  ) !== undefined
+  const gotSubbedInd = substitutions.find(event => event.player === player)
+
+  if (isStartingGoalkeeper || isSubstituteGoalkeeper && gotSubbedInd) {
+    return ({
+      id: `clean_sheet_${player}_${opponent}`,
+      type_of_event: "cleanSheet",
+      time: "full time",
+      owner,
+      player,
+      country,
+      opponent,
+    })
+  }
+  else
+    return false
+}
+
+export function getEvents(matches, owners, drafts) {
   const events = []
   for (const match of matches) {
+    if (match.status === "future_unscheduled") continue
+
+    const homeTeamDrafts = drafts[match.home_team_country]
+    const awayTeamDrafts = drafts[match.away_team_country]
+
+    for (const participant of Object.values(Participants)) {
+      const homeTeamPlayer = homeTeamDrafts[participant]
+      const homeTeamCleanSheetEvent = getCleanSheetEvent(
+        participant,
+        homeTeamPlayer,
+        match.home_team_lineup,
+        match.home_team_events,
+        match.away_team.goals,
+        match.home_team_country,
+        match.away_team_country
+      )
+      if (homeTeamCleanSheetEvent)
+        events.push(homeTeamCleanSheetEvent)
+
+      const awayTeamPlayer = awayTeamDrafts[participant]
+      const awayTeamCleanSheetEvent = getCleanSheetEvent(
+        participant,
+        awayTeamPlayer,
+        match.away_team_lineup,
+        match.away_team_events,
+        match.home_team.goals,
+        match.away_team_country,
+        match.home_team_country
+      )
+      if (awayTeamCleanSheetEvent)
+        events.push(awayTeamCleanSheetEvent)
+    }
+
     for (const event of match.home_team_events) {
       event.country = match.home_team_country
       event.opponent = match.away_team_country
+      
+
       const owner = owners[event.country] && owners[event.country][event.player]
       if (owner) {
         event.owner = owner
@@ -39,7 +102,23 @@ export function getEvents(matches, owners) {
       }
     }
   }
-  return events
+  return deduplicateEvents(events)
+}
+
+export function deduplicateEvents(events) {
+  function h(event) {
+    const { player, type_of_event, time, country, opponent } = event
+    return `${player}_${type_of_event}_${time}_${country}_${opponent}`
+  }
+  const hashMap = {}
+  
+  return events.filter(event => {
+    const hash = h(event)
+    if (!hashMap[hash])
+      return hashMap[hash] = true
+    else
+      return false
+  }) 
 }
 
 export function getEventsWithPlayers(events, players) {
@@ -64,6 +143,7 @@ export function getEventsOfTypes(events, types) {
 }
 
 export function getScores(events) {
+  console.log(getEventsOfTypes(events, [EventType.CLEAN_SHEET]))
   return Object.values(Participants)
     .map(owner => ([owner, getEventsWithOwners(events, [owner])]))
     .map(([owner, ownerEvents]) => ([owner, getScoresOfOwner(ownerEvents)]))
@@ -85,7 +165,7 @@ export function getScoresOfOwner(events) {
   const goals = getEventsOfTypes(events, [EventType.GOAL])
   const assists = []
   const bookings = getEventsOfTypes(events, [EventType.BOOKING])
-  const cleanSheets = []
+  const cleanSheets = getEventsOfTypes(events, [EventType.CLEAN_SHEET]) 
   const total = [...goals, ...assists, ...bookings, ...cleanSheets]
   return { goals, assists, bookings, cleanSheets, total }
 }

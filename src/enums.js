@@ -1,7 +1,8 @@
 export const EventType = {
   GOAL: "goal",
   SUBST: "substitution",
-  BOOKING: "booking"
+  BOOKING: "booking",
+  CLEAN_SHEET: "cleanSheet",
 }
 
 export const Participants = {
@@ -11,5 +12,5 @@ export const Participants = {
   JAN: "Jan",
   JOEL: "Joel",
   JULIEN: "Julien",
-  OLI: "Oli"
+  OLI: "Oli",
 }

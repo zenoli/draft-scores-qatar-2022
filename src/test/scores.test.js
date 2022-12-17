@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest"
 import matches from "./match-sample.json"
 import drafts from "../drafts.json"
-import { getEvents, getOwners } from "../scores"
+import { deduplicateEvents, getEvents, getOwners } from "../scores"
 
 
 describe("Scores", () => {
@@ -56,5 +56,50 @@ describe("Scores", () => {
       },
     ]
     expect(result).toEqual(expected)
+  })
+
+  test("deduplicateEvents", () => {
+    const duplicateEvents = [
+      {
+        "id": 1872,
+        "type_of_event": "goal",
+        "player": "Manuel Akanji",
+        "time": "58'",
+        "extra_info": null
+      },
+      {
+        "id": 1873,
+        "type_of_event": "goal",
+        "player": "Manuel Akanji",
+        "time": "58'",
+        "extra_info": null
+      },
+      {
+        "id": 1874,
+        "type_of_event": "booking",
+        "player": "Eray Comert",
+        "time": "59'",
+        "extra_info": null
+      }
+    ]
+    const deduplicatedEvents = [
+      {
+        "id": 1872,
+        "type_of_event": "goal",
+        "player": "Manuel Akanji",
+        "time": "58'",
+        "extra_info": null
+      },
+      {
+        "id": 1874,
+        "type_of_event": "booking",
+        "player": "Eray Comert",
+        "time": "59'",
+        "extra_info": null
+      }
+    ]
+    const result = deduplicateEvents(duplicateEvents)
+
+    expect(result).toEqual(deduplicatedEvents)
   })
 })

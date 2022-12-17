@@ -11,7 +11,7 @@ export function useEvents() {
   const owners = getOwners(drafts)
   const UPDATE_INTERVAL = 60 * 1000
 
-  const events = getEvents(matches, owners)
+  const events = getEvents(matches, owners, drafts)
   async function fetchMatches() {
     setLoading(true)
     const matchesResponse = await fetch(
@@ -25,10 +25,10 @@ export function useEvents() {
 
   useEffect(() => {
     fetchMatches()
-    const intervalHandle = setInterval(fetchMatches, UPDATE_INTERVAL)
-    return function cleanup() {
-      clearInterval(intervalHandle)
-    }
+    // const intervalHandle = setInterval(fetchMatches, UPDATE_INTERVAL)
+    // return function cleanup() {
+    //   clearInterval(intervalHandle)
+    // }
   }, [])
 
   return [events, loading]

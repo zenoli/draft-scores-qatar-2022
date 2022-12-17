@@ -250,5 +250,41 @@
     "Oli":  "Eric Maxim Choupo Moting",
     "Jakob": "Nicolas Ngamaleu",
     "Joel": "Andre Frank Zambo Anguissa"
+  },
+  "URU": {
+    "Jan": "Darwin Nunez",
+    "Julien": "Edinson Cavani",
+    "Chris": "Diego Godin",
+    "Faebe": "Giorgian De Arrascaeta",
+    "Oli":  "Luis Suarez",
+    "Jakob": "Sergio Rochet",
+    "Joel": "Federico Valverde"
+  },
+  "KOR": {
+    "Jan": "Son Heungmin",
+    "Julien": "Kim Minjae",
+    "Chris": "Cho Guesung",
+    "Faebe": "Hwang Heechan",
+    "Oli":  "Lee Jaesung",
+    "Jakob": "Jeong Wooyeong",
+    "Joel": "Hwang Uijo"
+  },
+  "POR": {
+    "Jan": "Bernardo Silva",
+    "Julien": "Rui Patricio",
+    "Chris": "Joao Felix",
+    "Faebe": "Cristiano Ronaldo",
+    "Oli":  "Pepe",
+    "Jakob": "Bruno Fernandes",
+    "Joel": "Rafael Leao"
+  },
+  "GHA": {
+    "Jan": "Kamaldeen Sulemana",
+    "Julien": "Tariq Lamptey",
+    "Chris": "Inaki Williams",
+    "Faebe": "Jordan Ayew",
+    "Oli":  "Thomas Partey",
+    "Jakob": "Andre Ayew",
+    "Joel": "Kudus Mohammed"
   }
 }
