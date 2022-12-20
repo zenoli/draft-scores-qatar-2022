@@ -9,7 +9,7 @@ function ScoreboardView() {
     <div>
       <Header
         icon={<IoFootball />}
-        title={<h1>Hallo Rahel</h1>}
+        title={<h1>Ravensburger Scoreboard</h1>}
       />
       <div className="ScoreboardView flex justify-center m-4 sm:m-8">
         {<Scoreboard events={events} loading={loading}/>}
