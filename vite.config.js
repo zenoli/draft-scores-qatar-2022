@@ -8,7 +8,12 @@ export default defineConfig({
   server: {
     proxy: {
       // "/assists": "http://localhost:3000",
-      "/assists": "http://world-cup-stats:3000",
+      "/assists": "https://world-cup-stats-production.up.railway.app",
+      "/api": {
+        changeOrigin: true,
+        target: "https://world-cup-stats-production.up.railway.app",
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
     },
     host: true,
     strictPort: true,
