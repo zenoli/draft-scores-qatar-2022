@@ -1,6 +1,7 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import eslint from 'vite-plugin-eslint'
+import { defineConfig } from "vite"
+import react from "@vitejs/plugin-react"
+import eslint from "vite-plugin-eslint"
+import tsconfigPaths from "vite-tsconfig-paths"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -8,11 +9,11 @@ export default defineConfig({
   server: {
     proxy: {
       // "/assists": "http://localhost:3000",
-      "/assists": "https://world-cup-stats-production.up.railway.app",
+      // "/assists": "https://rb-scoreboard-backend-production.up.railway.app/",
       "/api": {
         changeOrigin: true,
-        target: "https://world-cup-stats-production.up.railway.app",
-        rewrite: path => path.replace(/^\/api/, ''),
+        target: "https://rb-scoreboard-backend-production.up.railway.app/",
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
     host: true,
@@ -21,17 +22,20 @@ export default defineConfig({
   },
   plugins: [
     react(),
-    { // default settings on build (i.e. fail on error)
+    tsconfigPaths(),
+    {
+      // default settings on build (i.e. fail on error)
       ...eslint(),
-      apply: 'build',
+      apply: "build",
     },
-    { // do not fail on serve (i.e. local development)
+    {
+      // do not fail on serve (i.e. local development)
       ...eslint({
         failOnWarning: false,
         failOnError: false,
       }),
-      apply: 'serve',
-      enforce: 'post'
-    }
+      apply: "serve",
+      enforce: "post",
+    },
   ],
 })

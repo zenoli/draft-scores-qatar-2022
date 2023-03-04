@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest"
 import matches from "./match-sample.json"
-import drafts from "../drafts.json"
+import drafts from "../resources/drafts.json"
 import { deduplicateEvents, getEvents, getOwners } from "../scores"
 
 

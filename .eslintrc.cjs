@@ -4,6 +4,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:import/recommended",
+    "plugin:import/typescript",
     // This disables the formatting rules in ESLint that Prettier is going to be responsible for handling.
     // Make sure it's always the last config, so it gets the chance to override other configs.
     "eslint-config-prettier",
@@ -19,6 +20,7 @@ module.exports = {
         paths: ["src"],
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       },
+      typescript: true,
     },
     "import/ignore": ["vite*"],
   },

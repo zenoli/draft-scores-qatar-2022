@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "jsx": "react",
+    "types": ["vitest/globals"],
+    "sourceMaps": true,
+    "baseUrl": "src",
+    "paths": {
+      "@resources/*": [ "resources/*" ],
+      "@components/*": [ "components/*" ],
+      "@lib/*": [ "lib/*" ]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
-import drafts from "./drafts.json"
+import drafts from "@resources/drafts.json"
 import { getEvents, getOwners } from "./scores"
 
 export const MatchesContext = React.createContext([])
@@ -11,13 +11,17 @@ export function useEvents() {
   const owners = getOwners(drafts)
   const UPDATE_INTERVAL = 60 * 1000
 
+  console.table(drafts)
   const events = getEvents(matches, owners, drafts)
+
   async function fetchMatches() {
     setLoading(true)
     const matchesResponse = await fetch(
       "https://worldcupjson.net/matches?details=true",
     )
-    const matches = await matchesResponse.json()
+    let matches = await matchesResponse.json()
+    if (matches.message != null)
+      matches = []
     setLoading(false)
     console.log("FETCHING...")
     setMatches(matches)
@@ -35,9 +39,9 @@ export function useEvents() {
 }
 
 function App() {
-  const [matches, loading] = useEvents()
+  const [events, loading] = useEvents()
   return (
-    <Outlet context={[matches, loading]} />
+    <Outlet context={[events, loading]} />
   )
 }
 
