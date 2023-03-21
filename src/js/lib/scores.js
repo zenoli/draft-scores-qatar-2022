@@ -185,8 +185,8 @@ export function processMatches(matches, drafts) {
 }
 
 function processMatch(match, drafts) {
-  const homeTeam = match.home_team_country
-  const awayTeam = match.away_team_country
+  // const homeTeam = match.home_team_country
+  // const awayTeam = match.away_team_country
 
   const homeTeamDrafts = drafts["ENG"]
   const awayTeamDrafts = drafts["IRN"]
