@@ -8,8 +8,8 @@
     "baseUrl": "src",
     "paths": {
       "@resources/*": [ "resources/*" ],
-      "@components/*": [ "components/*" ],
-      "@lib/*": [ "lib/*" ]
+      "@components/*": [ "js/components/*" ],
+      "@lib/*": [ "js/lib/*" ]
     }
   }
 }

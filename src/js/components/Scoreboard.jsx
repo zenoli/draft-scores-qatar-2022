@@ -3,7 +3,7 @@ import GridLoader from "react-spinners/GridLoader"
 
 import ScoreboardHeader from "./ScoreboardHeader"
 import ScoreboardRow from "./ScoreboardRow"
-import { getSortedScores } from "./scores.js"
+import { getSortedScores } from "@lib/scores.js"
 
 export function useAssists() {
   async function scrapeAssists() {

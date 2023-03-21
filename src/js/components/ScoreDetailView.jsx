@@ -4,11 +4,11 @@ import {
   getEventsOfTypes,
   getEventsWithOwners,
   getSortedScores,
-} from "./scores"
+} from "@lib/scores"
 import BackButton from "./BackButton"
 import Header from "./Header"
 import EventTableRow from "./EventTableRow"
-import { EventType } from "./enums"
+import { EventType } from "@lib/enums"
 
 export function loader({ params }) {
   console.log(params)

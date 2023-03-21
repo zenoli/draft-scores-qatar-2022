@@ -10,7 +10,7 @@ import {
 import ScoreBoardView from "./ScoreboardView"
 import ScoreDetailView, { loader as scoreDetailLoader } from "./ScoreDetailView"
 import App, { MatchesContext } from "./App"
-import "./index.css"
+import "@resources/index.css"
 
 
 const router = createBrowserRouter(

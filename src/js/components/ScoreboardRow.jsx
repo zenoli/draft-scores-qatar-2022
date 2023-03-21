@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import { getEventsOfTypes } from "./scores.js"
 
 function ScoreboardRow({ name, goals, assists, bookings, cleanSheets, total }) {
   const Cell = (props) => (
