@@ -5,6 +5,7 @@ import { getEvents, getOwners } from "@lib/scores"
 
 export const MatchesContext = React.createContext([])
 
+
 export function useEvents() {
   const [loading, setLoading] = useState(true)
   const [matches, setMatches] = useState([])

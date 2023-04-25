@@ -2,11 +2,6 @@ import { EventType, Participants } from "./enums.js"
 import { arrayToObject, invertAssociation } from "./utils.js"
 
 function getScoreObject() {
-  return arrayToObject(
-    Object.values(Participants),
-    (key) => key,
-    (_) => 0,
-  )
 }
 
 export function getOwners(drafts) {

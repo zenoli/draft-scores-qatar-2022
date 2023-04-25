@@ -8,8 +8,6 @@ export default defineConfig({
   // base: "draft-scores-qatar-2022",
   server: {
     proxy: {
-      // "/assists": "http://localhost:3000",
-      // "/assists": "https://rb-scoreboard-backend-production.up.railway.app/",
       "/api": {
         changeOrigin: true,
         target: "https://rb-scoreboard-backend-production.up.railway.app/",
