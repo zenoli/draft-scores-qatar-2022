@@ -92,7 +92,7 @@ async function scrapeAssists() {
   //
 
   const assists = await fetchAssists()
-  console.log(assists)
+  // console.log(assists)
   // const countriesProcessed = countries.Results.map(country => ({
   //   id: country.IdTeam,
   //   country: country.Abbreviation,

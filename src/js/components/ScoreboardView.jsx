@@ -4,7 +4,7 @@ import Scoreboard from "./Scoreboard"
 import { IoFootball } from "react-icons/all"
 
 function ScoreboardView() {
-  const [events, loading] = useOutletContext()
+  const [scores, loading] = useOutletContext()
   return (
     <div>
       <Header
@@ -12,7 +12,7 @@ function ScoreboardView() {
         title={<h1>Ravensburger Scoreboard</h1>}
       />
       <div className="ScoreboardView flex justify-center m-4 sm:m-8">
-        {<Scoreboard events={events} loading={loading}/>}
+        {<Scoreboard scores={scores} loading={loading}/>}
       </div>
     </div>
   )

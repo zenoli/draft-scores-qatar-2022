@@ -6,43 +6,30 @@ import { getEvents, getOwners } from "@lib/scores"
 export const MatchesContext = React.createContext([])
 
 
-export function useEvents() {
-  const [loading, setLoading] = useState(true)
-  const [matches, setMatches] = useState([])
-  const owners = getOwners(drafts)
-  const UPDATE_INTERVAL = 60 * 1000
+export function useScores() {
+  const [loading, setLoading] = useState(false)
+  const [scores, setScores] = useState([])
+  console.log("Use scores...")
 
-  console.table(drafts)
-  const events = getEvents(matches, owners, drafts)
-
-  async function fetchMatches() {
+  async function fetchScores() {
     setLoading(true)
-    const matchesResponse = await fetch(
-      "https://worldcupjson.net/matches?details=true",
-    )
-    let matches = await matchesResponse.json()
-    if (matches.message != null)
-      matches = []
+    const scores = await fetch("/api/scores")
+    setScores(await scores.json())
     setLoading(false)
-    console.log("FETCHING...")
-    setMatches(matches)
+    console.log(scores)
   }
 
   useEffect(() => {
-    fetchMatches()
-    // const intervalHandle = setInterval(fetchMatches, UPDATE_INTERVAL)
-    // return function cleanup() {
-    //   clearInterval(intervalHandle)
-    // }
+    fetchScores()
   }, [])
 
-  return [events, loading]
+  return [scores, loading]
 }
 
 function App() {
-  const [events, loading] = useEvents()
+  const [scores, loading] = useScores()
   return (
-    <Outlet context={[events, loading]} />
+    <Outlet context={[scores, loading]} />
   )
 }
 

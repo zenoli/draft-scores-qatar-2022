@@ -10,28 +10,31 @@ export function useAssists() {
     const response = await fetch("/api/assists")
     // const response = await fetch("https://world-cup-stats-production.up.railway.app/assists")
     const assists = await response.json()
-    console.log(assists)
+    // console.log(assists)
     return assists
   }
 
   return scrapeAssists()
 }
 
-function Scoreboard({ events, loading }) {
+function Scoreboard({ scores, loading }) {
   useAssists()
 
   const [sortCategory, setSortCategory] = useState("total")
-  const scores = getSortedScores(events, sortCategory)
 
-  const scoreboardRows = scores.map(([owner, scores], i) => (
+  function getTotal({goals, assists, bookings, clean_sheets}) {
+    return goals + assists + bookings + clean_sheets
+  }
+
+  const scoreboardRows = scores.map((score, i) => (
     <ScoreboardRow
       key={i}
-      name={owner}
-      goals={scores.goals}
-      assists={scores.assists}
-      bookings={scores.bookings}
-      cleanSheets={scores.cleanSheets}
-      total={scores.total}
+      name={score.participant}
+      goals={score.goals}
+      assists={score.assists}
+      bookings={score.bookings}
+      cleanSheets={score.clean_sheets}
+      total={getTotal(score)}
     />
   ))
 
