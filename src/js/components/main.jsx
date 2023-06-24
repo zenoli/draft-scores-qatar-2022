@@ -9,23 +9,22 @@ import {
 } from "react-router-dom"
 import ScoreBoardView from "./ScoreboardView"
 import ScoreDetailView, { loader as scoreDetailLoader } from "./ScoreDetailView"
-import App, { MatchesContext } from "./App"
+import App from "./App"
 import "@resources/index.css"
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
-      // path={import.meta.env.BASE_URL}
-      element={<App />}
+      element={<App/>}
     >
       <Route
         index
-        element={<ScoreBoardView />}
+        element={<ScoreBoardView/>}
       />
       <Route
         path="details/:participant/:scoreType"
-        element={<ScoreDetailView />}
+        element={<ScoreDetailView/>}
         loader={scoreDetailLoader}
       />
     </Route> 

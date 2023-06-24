@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
-import drafts from "@resources/drafts.json"
-import { getEvents, getOwners } from "@lib/scores"
-
-export const MatchesContext = React.createContext([])
-
 
 export function useScores() {
   const [loading, setLoading] = useState(false)

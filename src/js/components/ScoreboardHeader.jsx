@@ -1,4 +1,4 @@
-import { AiFillCaretDown } from "react-icons/all"
+import { AiFillCaretDown } from "react-icons/ai"
 
 function ScoreboardHeader({ sortCategory, setSortCategory }) {
   const HeaderCell = ({name, category}) => {

@@ -5,14 +5,20 @@ import tsconfigPaths from "vite-tsconfig-paths"
 
 // https://vitejs.dev/config/
 export default ({mode}) => {
-  process.env = {...process.env, ...loadEnv(mode, process.cwd())};
+  process.env = {
+    ...process.env,
+    ...loadEnv(mode, process.cwd(), '')
+  };
+
+  if (process.env.API_PROXY == undefined) {
+    console.warn("Env variable `API_PROXY` not defined.")
+  }
   return defineConfig({
-    // base: "draft-scores-qatar-2022",
     server: {
       proxy: {
         "/api": {
           changeOrigin: true,
-          target: process.env.VITE_API_PROXY,
+          target: process.env.API_PROXY,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
@@ -24,12 +30,10 @@ export default ({mode}) => {
       react(),
       tsconfigPaths(),
       {
-        // default settings on build (i.e. fail on error)
         ...eslint(),
         apply: "build",
       },
       {
-        // do not fail on serve (i.e. local development)
         ...eslint({
           failOnWarning: false,
           failOnError: false,
